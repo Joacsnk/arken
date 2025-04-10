@@ -1,0 +1,23 @@
+# Arquivos de senhas
+senhas.json
+data/senhas.json
+
+# Arquivo de variáveis de ambiente
+.env
+
+# Ambiente virtual
+venv/
+env/
+
+# Arquivos de backup ou temporários
+*.bak
+*.tmp
+*.log
+
+# __pycache__ e arquivos compilados do Python
+__pycache__/
+*.py[cod]
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
