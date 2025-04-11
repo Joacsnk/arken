@@ -40,7 +40,7 @@ class senha_generator(main):
                 self.tempo(0.7)
                 self.inicio()
             case _:
-                self.opcao_inválida()
+                self.erro(1)
                 self.inicio()
 
     def mostrar_senha(self):
@@ -68,7 +68,7 @@ class senha_generator(main):
                 self.tempo(0.7)
                 self.inicio()
             case _:
-                self.opcao_invalida()
+                self.erro(1)
                 self.mostrar_senha()
         
     def personalizar_senha(self):
@@ -85,13 +85,13 @@ class senha_generator(main):
                 if self.tamanho.isdigit():
                     self.tamanho = int(self.tamanho)
                     if self.tamanho < 4 or self.tamanho > 20:
-                        self.opcao_inválida()
+                        self.erro(2)
                         self.tamanho = None
                         self.personalizar_senha()
                     else:
                         self.personalizar_senha()
                 else:
-                    self.opcao_inválida()
+                    self.erro(3)
                     self.personalizar_senha()
             case "2":
                 if self.numero == False:
@@ -119,10 +119,10 @@ class senha_generator(main):
                 self.personalizar_senha()
             case "6":
                 if self.tamanho is None:
-                    self.opcao_inválida()
+                    self.erro(4)
                     self.personalizar_senha()
                 elif self.numero == False and self.lmaiusculas == False and self.lminusculas == False and self.simbolos == False:
-                    self.opcao_inválida()
+                    self.erro(5)
                     self.personalizar_senha()
                 else:
                     self.limpar_terminal()
@@ -134,7 +134,7 @@ class senha_generator(main):
                 self.tempo(0.7)
                 self.inicio()
             case _:
-                self.opcao_inválida()
+                self.erro(1)
                 self.personalizar_senha()
                     
         

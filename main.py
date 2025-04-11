@@ -9,10 +9,19 @@ class main():
     def limpar_terminal(self):
         sy("cls")
     
-    def opcao_inválida(self):
+    def erro(self, tipo):
         self.limpar_terminal()
         sl(1)
-        print("Erro 1. Opção inválida. Verifique se digitou corretamente.")
+        if tipo == 1:
+            print("Erro 1. Opção inválida. Verifique se digitou corretamente.")
+        elif tipo == 2:
+            print("Erro 2. Tamanho inválido. O tamanho deve ser entre 4 e 20.")
+        elif tipo == 3:
+            print("Erro 3. Tamanho inválido. O tamanho deve ser um número.")
+        elif tipo == 4:
+            print("Erro 4. Tamanho inválido. O tamanho deve ser definido.")
+        elif tipo == 5:
+            print("Erro 5. Nenhum caractere foi selecionado.")
         sl(2)
         self.limpar_terminal()
   
@@ -35,7 +44,7 @@ class main():
                 self.limpar_terminal()
                 exit()
             case _:
-                self.opcao_inválida()
+                self.erro(1)
                 self.inicio()
                 
             
