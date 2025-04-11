@@ -1,10 +1,10 @@
-from main import main as mn
+from main import main
 import string
 from secrets import choice
 from pyperclip import copy
-class senha_generator():
+class senha_generator(main):
     def __init__(self):
-        self.app = mn()
+        pass
     
     def inicio(self):
         self.selecao(self.interface())  
@@ -34,16 +34,16 @@ class senha_generator():
             case "6":
                 print("Personalizar senha selecionado")
             case "7":
-                self.app.limpar_terminal()
-                self.app.tempo(0.7)
-                self.app.inicio()
+                self.limpar_terminal()
+                self.tempo(0.7)
+                self.inicio()
             case _:
-                self.app.opcao_inválida()
+                self.opcao_inválida()
                 self.inicio()
 
     def mostrar_senha(self):
-        self.app.limpar_terminal()
-        self.app.tempo(0.7)
+        self.limpar_terminal()
+        self.tempo(0.7)
         print(f"Senha gerada: {self.senha}\n\n")
         print("[1] - Copiar senha\n[2] - Gerar nova senha\n[3] - Sair\n")
         return str(input("Digite a opção desejada: "))
@@ -52,21 +52,21 @@ class senha_generator():
         match opcao:
             case "1":
                 copy(self.senha)
-                self.app.limpar_terminal()
+                self.limpar_terminal()
                 print("Senha copiada com sucesso!")
-                self.app.limpar_terminal()
-                self.app.tempo(0.7)
+                self.limpar_terminal()
+                self.tempo(0.7)
                 self.inicio()
             case "2":
-                self.app.limpar_terminal()
-                self.app.tempo(0.7)
+                self.limpar_terminal()
+                self.tempo(0.7)
                 self.inicio()
             case "3":
-                self.app.limpar_terminal()
-                self.app.tempo(0.7)
-                self.app.inicio()
+                self.limpar_terminal()
+                self.tempo(0.7)
+                self.inicio()
             case _:
-                self.app.opcao_inválida()
+                self.opcao_invalida()
                 self.mostrar_senha()
         
 
