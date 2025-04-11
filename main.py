@@ -15,7 +15,9 @@ class main():
         print("Erro 1. Opção inválida. Verifique se digitou corretamente.")
         sl(2)
         self.limpar_terminal()
-        self.inicio()
+  
+    def tempo(self, tempo):
+        sl(tempo)
     
     def interface(self):
         print("✦  — — — — — ARKEN— — — — —  ✦\n\n")
@@ -24,11 +26,17 @@ class main():
     
     def selecao(self, opcao):
         match opcao:
+            case "1":
+                self.limpar_terminal()
+                self.tempo(0.7)
+                from core.senha_generator import senha_generator
+                senha_generator().inicio()
             case "2":
                 self.limpar_terminal()
                 exit()
             case _:
                 self.opcao_inválida()
+                self.inicio()
                 
             
     
