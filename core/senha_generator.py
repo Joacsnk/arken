@@ -4,7 +4,8 @@ from secrets import choice
 from pyperclip import copy
 class senha_generator(main):
     def __init__(self):
-        pass
+        self.tamanho = None
+        self.numero, self.lmaiusculas, self.lminusculas, self.simbolos = False, False, False, False
     
     def inicio(self):
         self.selecao(self.interface())  
@@ -19,6 +20,7 @@ class senha_generator(main):
         print("[6] - Personalizar senha\n")
         print("[7] - Sair\n")
         return str(input("Digite a opção desejada: "))
+    
     def selecao(self, opcao):
         match opcao:
             case "1":
@@ -32,7 +34,7 @@ class senha_generator(main):
             case "5":
                 self.senha = self.gerador_senha(18, True, True, True, True)
             case "6":
-                print("Personalizar senha selecionado")
+                self.personalizar_senha()
             case "7":
                 self.limpar_terminal()
                 self.tempo(0.7)
@@ -69,6 +71,74 @@ class senha_generator(main):
                 self.opcao_invalida()
                 self.mostrar_senha()
         
+    def personalizar_senha(self):
+        self.limpar_terminal()
+        self.tempo(0.7)
+        print("● — — — — — ◦Personalização◦ — — — — — ●\n\n")
+        print(f"[1] - Tamanho da senha ({self.tamanho})\n\n[2] - Números ({self.numero})\n")
+        print(f"[3] - Letras maiúsculas ({self.lmaiusculas})\n\n[4] - Letras minúsculas ({self.lminusculas})\n")
+        print(f"[5] - Caracteres especiais ({self.simbolos})\n\n[6] - Finalizar\n[7] - Voltar\n")
+        match str(input("Digite a opção desejada: ")):
+            case "1":
+                self.limpar_terminal()
+                self.tamanho = str(input("Digite o tamanho da senha: ")).strip()
+                if self.tamanho.isdigit():
+                    self.tamanho = int(self.tamanho)
+                    if self.tamanho < 4 or self.tamanho > 20:
+                        self.opcao_inválida()
+                        self.tamanho = None
+                        self.personalizar_senha()
+                    else:
+                        self.personalizar_senha()
+                else:
+                    self.opcao_inválida()
+                    self.personalizar_senha()
+            case "2":
+                if self.numero == False:
+                    self.numero = True
+                else:
+                    self.numero = False
+                self.personalizar_senha()
+            case "3":
+                if self.lmaiusculas == False:
+                    self.lmaiusculas = True
+                else:
+                    self.lmaiusculas = False
+                self.personalizar_senha()
+            case "4":
+                if self.lminusculas == False:
+                    self.lminusculas = True
+                else:
+                    self.lminusculas = False
+                self.personalizar_senha()
+            case "5":
+                if self.simbolos == False:
+                    self.simbolos = True
+                else:
+                    self.simbolos = False
+                self.personalizar_senha()
+            case "6":
+                if self.tamanho is None:
+                    self.opcao_inválida()
+                    self.personalizar_senha()
+                elif self.numero == False and self.lmaiusculas == False and self.lminusculas == False and self.simbolos == False:
+                    self.opcao_inválida()
+                    self.personalizar_senha()
+                else:
+                    self.limpar_terminal()
+                    self.tempo(0.7)
+                    self.senha = self.gerador_senha(self.tamanho, self.numero, self.lmaiusculas, self.lminusculas, self.simbolos)
+                    self.selecao_senha(self.mostrar_senha())
+            case "7":
+                self.limpar_terminal()
+                self.tempo(0.7)
+                self.inicio()
+            case _:
+                self.opcao_inválida()
+                self.personalizar_senha()
+                    
+        
+            
 
     def gerador_senha(self, tamanho, numero, Lmaiusculas, Lminusculas, simbolos):
         fonte_caracteres = ''
