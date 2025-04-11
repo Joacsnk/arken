@@ -2,6 +2,9 @@ from os import system as sy
 from time import sleep as sl
 class main():
     
+    def __init__(self):
+        pass
+    
     def inicio(self):
         self.limpar_terminal()
         self.selecao(self.interface())
