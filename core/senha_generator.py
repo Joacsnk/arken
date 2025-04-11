@@ -8,10 +8,10 @@ class senha_generator(main):
         self.numero, self.lmaiusculas, self.lminusculas, self.simbolos = False, False, False, False
     
     def inicio(self):
-        self.selecao(self.interface())  
+        self.selecao_gerador(self.interface_gerador())  
         self.selecao_senha(self.mostrar_senha())
         
-    def interface(self):
+    def interface_gerador(self):
         print("● — — — — — ◦Níveis de senha◦ — — — — — ●\n\n")
         print("[1] - Nível 1 (8 digitos, com números)\n\n[2] - Nível 2 (10 digitos, com letras minúsculas)\n")
         print("[3] - Nível 3 (12 digitos, com letras minúsculas e maiúsculas)\n")
@@ -21,7 +21,7 @@ class senha_generator(main):
         print("[7] - Sair\n")
         return str(input("Digite a opção desejada: "))
     
-    def selecao(self, opcao):
+    def selecao_gerador(self, opcao):
         match opcao:
             case "1":
                 self.senha = self.gerador_senha(8, True, False, False, False)
@@ -38,7 +38,7 @@ class senha_generator(main):
             case "7":
                 self.limpar_terminal()
                 self.tempo(0.7)
-                self.inicio()
+                self.main()
             case _:
                 self.erro(1)
                 self.inicio()
@@ -56,8 +56,8 @@ class senha_generator(main):
                 copy(self.senha)
                 self.limpar_terminal()
                 print("Senha copiada com sucesso!")
-                self.limpar_terminal()
                 self.tempo(0.7)
+                self.limpar_terminal()
                 self.inicio()
             case "2":
                 self.limpar_terminal()
@@ -66,10 +66,10 @@ class senha_generator(main):
             case "3":
                 self.limpar_terminal()
                 self.tempo(0.7)
-                self.inicio()
+                self.main()
             case _:
                 self.erro(1)
-                self.mostrar_senha()
+                self.selecao_senha(self.mostrar_senha())
         
     def personalizar_senha(self):
         self.limpar_terminal()
@@ -135,10 +135,7 @@ class senha_generator(main):
                 self.inicio()
             case _:
                 self.erro(1)
-                self.personalizar_senha()
-                    
-        
-            
+                self.personalizar_senha()         
 
     def gerador_senha(self, tamanho, numero, Lmaiusculas, Lminusculas, simbolos):
         fonte_caracteres = ''
