@@ -54,8 +54,8 @@ class senha_generator():
                 copy(self.senha)
                 self.app.limpar_terminal()
                 print("Senha copiada com sucesso!")
-                self.app.limpar_terminal()
                 self.app.tempo(0.7)
+                self.app.limpar_terminal()
                 self.inicio()
             case "2":
                 self.app.limpar_terminal()
