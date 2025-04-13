@@ -27,6 +27,10 @@ class FuncoesGerais(): #classe que contém as funções gerais do programa
             print("Erro 4. Tamanho inválido. O tamanho deve ser definido.") # Tamanho não definido
         elif tipo_erro == 5:
             print("Erro 5. Opcão inválida. Nenhum caractere foi selecionado.") # Nenhum caractere foi selecionado
+        elif tipo_erro == 6:
+            print("Erro 6. Seleção inválida. Nome inexistente.") # Nome não existe
+        elif tipo_erro == 7:
+            print("Erro 7. Seleção inválida. Nome já existente.")
         self.tempo_espera(2) #espera 2 segundos
         self.limpar_terminal() #limpa o terminal novamente
         
