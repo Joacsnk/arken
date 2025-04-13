@@ -22,7 +22,7 @@ class MenuPrincipal(FuncoesGerais): # Herança da classe FuncoesGerais
             case "2": # Caso opção 2
                 self.limpar_terminal() # Limpando o terminal
                 from core.gerenciador_senha import GerenciadorSenha # Importando a classe GerenciadorSenha
-                GerenciadorSenha().inicio()
+                GerenciadorSenha().inicio() # Verificando se o arquivo json existe
             case "3": # Caso opção 3
                 self.limpar_terminal() # Limpando o terminal
                 exit() # Saindo do programa
@@ -32,3 +32,4 @@ class MenuPrincipal(FuncoesGerais): # Herança da classe FuncoesGerais
                               
 if __name__ == "__main__": # Verificando se o arquivo está sendo executado diretamente
     MenuPrincipal().inicio() # Inicia o programa chamando o método de início da classe MenuPrincipal
+    
