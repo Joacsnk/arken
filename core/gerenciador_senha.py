@@ -37,7 +37,7 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
                 self.inicio()
                 
     def verificar_arquivo_json(self):
-        self.caminho = 'data.senhas.json'
+        self.caminho = r'C:\Users\Usuario\Desktop\Projetos\Andamento\arken\data\senhas.json'
         if not os.path.exists(self.caminho) or os.stat(self.caminho).st_size == 0:
             with open(self.caminho, 'w') as f:
                 json.dump({}, f)
