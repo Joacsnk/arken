@@ -1,9 +1,12 @@
 from core.funcoes import FuncoesGerais # Importando a classe FuncoesGerais
 import os # Importando a biblioteca os para manipulação de arquivos
 import json # Importando a biblioteca json para manipulação de arquivos json
+from core.ferramentas_crypto import FerramentasCrypto as FC
 class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
     
     def __init__(self): # Método construtor
+        self.crypto = FC()
+        self.crypto.senha_acesso()
         self.verificar_arquivo_json() # Verifica se o arquivo json existe e cria se não existir
     
     def inicio(self): # Método de início
@@ -37,7 +40,7 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
                 self.inicio()
                 
     def verificar_arquivo_json(self):
-        self.caminho_json = r'C:\Users\Usuario\Desktop\Projetos\Andamento\arken\data\senhas.json'
+        self.caminho_json = os.path.join('data', 'senhas.json')
         if not os.path.exists(self.caminho_json) or os.stat(self.caminho_json).st_size == 0:
             os.makedirs(os.path.dirname(self.caminho_json), exist_ok=True)
             with open(self.caminho_json, 'w') as f:
@@ -51,20 +54,22 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
         if not nome_senha or not senha or not descricao_senha:
             self.explicacao_erro(6)
             self.inicio()
-        elif nome_senha in conjunto_senhas:
-            self.explicacao_erro(7)
-            self.inicio()
-        else:
-            with open(self.caminho_json, 'r') as f:
+        with open(self.caminho_json, 'r') as f:
                 conjunto_senhas = json.load(f)
-                conjunto_senhas[nome_senha] = {
-                    'senha': senha,
-                    'descricao': descricao_senha
-                }
-            with open(self.caminho_json, 'w') as f:
-                json.dump(conjunto_senhas, f, indent=4)
-            self.titulo_visivel("Senha adicionada com sucesso!", 2)
-            self.inicio()
+                if nome_senha in conjunto_senhas:
+                    self.explicacao_erro(7)
+                    self.inicio()
+                else:
+                    senha = self.crypto.criptografar_data(senha)
+                    descricao_senha = self.crypto.criptografar_data(descricao_senha)
+                    conjunto_senhas[nome_senha] = {
+                        'senha': senha,
+                        'descricao': descricao_senha
+                    }
+                with open(self.caminho_json, 'w') as f:
+                    json.dump(conjunto_senhas, f, indent=4)
+                self.titulo_visivel("Senha adicionada com sucesso!", 2)
+                self.inicio()
         
     def listar_nomes_senhas(self):
         self.limpar_terminal()
@@ -92,6 +97,8 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
                     self.limpar_terminal()
                     senha = conjunto_senhas[nome_senha]['senha']
                     descricao = conjunto_senhas[nome_senha]['descricao']
+                    senha = self.crypto.descriptografar_data(senha)
+                    descricao = self.crypto.descriptografar_data(descricao)
                     print(f"Nome da senha: {nome_senha}\nSenha: {senha}\nDescrição: {descricao}")
                     opcao = str(input("\n[1] - Copiar\n[2] - Editar\n[3] - Voltar\n\nDigite a opção desejada: "))
                     if opcao == "1":
@@ -103,6 +110,8 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
                         self.limpar_terminal()
                         senha = str(input("Digite a nova senha: "))
                         descricao = str(input("Digite a nova descrição: "))
+                        senha = self.crypto.criptografar_data(senha)
+                        descricao = self.crypto.criptografar_data(descricao)
                         if not senha or not descricao:
                             self.explicacao_erro(6)
                             self.inicio()
@@ -130,9 +139,13 @@ class GerenciadorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
         with open(self.caminho_json, 'r') as f:
             conjunto_senhas = json.load(f)
             if nome_senha in conjunto_senhas:
+                senha = conjunto_senhas[nome_senha]['senha']
+                descricao = conjunto_senhas[nome_senha]['descricao']
+                senha = self.crypto.descriptografar_data(senha)
+                descricao = self.crypto.descriptografar_data(descricao)
                 while True:
                     self.limpar_terminal()
-                    print(f"Nome da senha: {nome_senha}\nSenha: {conjunto_senhas[nome_senha]['senha']}\nDescrição: {conjunto_senhas[nome_senha]['descricao']}")
+                    print(f"Nome da senha: {nome_senha}\nSenha: {senha}\nDescrição: {descricao}")
                     print(f"\nDeseja realmente remover {nome_senha}?\n\n[1] - Sim\n[2] - Não")
                     opcao = str(input("\nDigite a opção desejada: "))
                     if opcao == "1":
