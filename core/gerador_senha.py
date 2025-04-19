@@ -108,8 +108,8 @@ class GeradorSenha(FuncoesGerais):
         com_letras_maiusculas = False 
         com_letras_minusculas = False  
         com_simbolos = False 
-        self.limpar_terminal() # Menu com funções de ligado ou desligado (True / False)
         while True:
+            self.limpar_terminal() # Menu com funções de ligado ou desligado (True / False)
             print("● — — — — — ◦Personalização◦ — — — — — ●\n\n") 
             print(f"[1] - Tamanho da senha ({tamanho_senha})\n")
             print(f"[2] - Números ({com_numero})\n") 
@@ -132,6 +132,7 @@ class GeradorSenha(FuncoesGerais):
                         tamanho_senha = None 
                 case "2": 
                     com_numero = self.ligar_desligar_opcao(com_numero) 
+                    
                 case "3": 
                     com_letras_maiusculas = self.ligar_desligar_opcao(com_letras_maiusculas) 
                 case "4": 
