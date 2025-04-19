@@ -1,124 +1,154 @@
-from core.funcoes import FuncoesGerais # Importando a classe FuncoesGerais do módulo funcoes.py
-class GeradorSenha(FuncoesGerais): # Herança da classe FuncoesGerais
-    def __init__(self): # Inicializando a classe GeradorSenha
-        pass # Método construtor
+from core.funcoes import FuncoesGerais # Importando funções como herança
+class GeradorSenha(FuncoesGerais): 
+    def __init__(self): 
+        pass 
     
-    def inicio(self): # Método de início
-        self.opcao_interface(self.interface()) # Chamando a interface inicial 
-        self.opcao_interface_mostrando_senha(self.interface_mostrando_senha()) # Chamando a interface mostrando a senha gerada
+    def inicio(self):  # Função principal para iniciar o arquivo completo
+        self.opcao_interface(self.interface())  
+        self.opcao_interface_mostrando_senha(self.interface_mostrando_senha())
         
-    def interface(self): # Método da interface inicial
-        print("● — — — — — ◦Níveis de senha◦ — — — — — ●\n\n") # Título do programa
-        # Opções do menu:
-        print("[1] - Nível 1 (8 digitos, com números)\n\n[2] - Nível 2 (10 digitos, com letras minúsculas)\n") 
+    def interface(self): # Interface gráfica que retorna a opção do usuário
+        print("● — — — — — ◦Níveis de senha◦ — — — — — ●\n\n") 
+        print("[1] - Nível 1 (8 digitos, com números)\n")
+        print("[2] - Nível 2 (10 digitos, com letras minúsculas)\n") 
         print("[3] - Nível 3 (12 digitos, com letras minúsculas e maiúsculas)\n")
         print("[4] - Nível 4 (16 digitos, com letras minúsculas, maiúsculas e números)\n")
         print("[5] - Nível 5 (18 digitos, com letras minúsculas, maiúsculas, números e caracteres especiais)\n")
-        print("[6] - Personalizar senha\n") # Opção de personalização
-        print("[7] - Sair\n") # Opção de sair
-        return str(input("Digite a opção desejada: ")) # Retorna a opção escolhida pelo usuário
+        print("[6] - Personalizar senha\n") 
+        print("[7] - Sair\n") 
+        return str(input("Digite a opção desejada: ")) 
     
-    def opcao_interface(self, opcao): # Método para tratar a opção escolhida
-        match opcao: # Usando o match para tratar a opção escolhida
-            case "1": # Caso opção 1
-                self.senha = self.gerador_senha(8, True, False, False, False) # Gerando senha de 8 digitos com números
-            case "2": # Caso opção 2
-                self.senha = self.gerador_senha(10, False, False, True, False) # Gerando senha de 10 digitos com letras minúsculas
-            case "3": # Caso opção 3
-                self.senha = self.gerador_senha(12, False, True, True, False) # Gerando senha de 12 digitos com letras minúsculas e maiúsculas
-            case "4": # Caso opção 4
-                self.senha = self.gerador_senha(16, True, True, True, False) # Gerando senha de 16 digitos com letras minúsculas, maiúsculas e números
-            case "5": # Caso opção 5
-                self.senha = self.gerador_senha(18, True, True, True, True) # Gerando senha de 18 digitos com letras minúsculas, maiúsculas, números e caracteres especiais
-            case "6": # Caso opção 6
-                self.tamanho_senha = None # Inicializando a variável tamanho_senha
-                self.com_numero = False # Inicializando a variável com_numero
-                self.com_letras_maiusculas = False # Inicializando a variável com_letras_maiusculas
-                self.com_letras_minusculas = False  # Inicializando a variável com_letras_minusculas
-                self.com_simbolos = False # Inicializando a variável com_simbolos
-                self.senha_personalizada() # Chamando a função de personalização
-            case "7": # Caso opção 7
-                self.limpar_terminal() # Limpando o terminal
-                from main import MenuPrincipal # Importando a classe MenuPrincipal
-                MenuPrincipal().inicio() # Chamando o método de início da classe MenuPrincipal
-            case _: # Caso opção inválida
-                self.explicacao_erro(1) # Chamando o método de erro
-                self.inicio() # Chamando o método de início novamente
-
-    def interface_mostrando_senha(self): # Método da interface mostrando a senha gerada
-        self.limpar_terminal() # Limpando o terminal
-        self.tempo_espera(0.5)  # Espera 0.5 segundos
-        print(f"Senha gerada: {self.senha}\n\n") # Mostrando a senha gerada
-        print("[1] - Copiar senha\n[2] - Gerar nova senha\n[3] - Sair\n") # Opções do menu
-        return str(input("Digite a opção desejada: ")) # Retorna a opção escolhida pelo usuário
-    
-    def opcao_interface_mostrando_senha(self, opcao): # Método para tratar a opção escolhida
-        match opcao: # Usando o match para tratar a opção escolhida
-            case "1": # Caso opção 1
-                self.copiar_conteudo(self.senha) # Copiando a senha para a área de transferência
-                self.titulo_visivel("Senha copiada com sucesso!", 0.7) # Mostrando mensagem de sucesso
-                self.inicio() # Chamando o método de início novamente
-            case "2": # Caso opção 2
-                self.limpar_terminal() # Limpando o terminal
-                self.inicio() # Chamando o método de início novamente
-            case "3": # Caso opção 3
-                self.limpar_terminal() # Limpando o terminal
-                from main import MenuPrincipal # Importando a classe MenuPrincipal
-                MenuPrincipal().inicio() # Chamando o método de início da classe MenuPrincipal                
-            case _: # Caso opção inválida
-                self.explicacao_erro(1) # Chamando o método de erro 
-                self.opcao_interface_mostrando_senha(self.interface_mostrando_senha()) # Chamando a função de interface mostrando a senha gerada novamente
+    def opcao_interface(self, opcao): 
+        ''' 
+        Opções da interfaçe:
         
-    def senha_personalizada(self): # Método de personalização da senha
-        self.limpar_terminal() # Limpando o terminal
-        print("● — — — — — ◦Personalização◦ — — — — — ●\n\n") # Título do programa
-        # Opções do menu:
-        print(f"[1] - Tamanho da senha ({self.tamanho_senha})\n\n[2] - Números ({self.com_numero})\n") #Tamanho da senha e números
-        print(f"[3] - Letras maiúsculas ({self.com_letras_maiusculas})\n\n[4] - Letras minúsculas ({self.com_letras_minusculas})\n") # Letras maiúsculas e minúsculas
-        print(f"[5] - Caracteres especiais ({self.com_simbolos})\n\n[6] - Finalizar\n\n[7] - Voltar\n") # Caracteres especiais, finalizar e voltar
-        match str(input("Digite a opção desejada: ")): # Retorna a opção escolhida pelo usuário
-            case "1": # Caso opção 1
-                self.limpar_terminal() # Limpando o terminal
-                self.tamanho_senha = str(input("Digite o tamanho da senha: ")).strip() # Pedindo o tamanho da senha
-                if self.tamanho_senha.isdigit(): # Verificando se o tamanho da senha é um número
-                    self.tamanho_senha = int(self.tamanho_senha) # Convertendo o tamanho da senha para inteiro
-                    if self.tamanho_senha < 4 or self.tamanho_senha > 20: # Verificando se o tamanho da senha está dentro do escopo
-                        self.explicacao_erro(2) # Chamando o método de erro
-                        self.tamanho_senha = None # Inicializando a variável tamanho_senha
-                        self.senha_personalizada() # Chamando a função de personalização novamente
-                    else: # Se o tamanho da senha estiver dentro do escopo
-                        self.senha_personalizada() # Chamando a função de personalização novamente
-                else: # Se o tamanho da senha não for um número
-                    self.explicacao_erro(3) # Chamando o método de erro
-                    self.tamanho_senha = None # Inicializando a variável tamanho_senha
-                    self.senha_personalizada() # Chamando a função de personalização novamente
-            case "2": # Caso opção 2
-                self.com_numero = self.ligar_desligar_opcao(self.com_numero) # Ligando ou desligando a opção de números
-                self.senha_personalizada() # Chamando a função de personalização novamente
-            case "3": # Caso opção 3
-                self.com_letras_maiusculas = self.ligar_desligar_opcao(self.com_letras_maiusculas) # Ligando ou desligando a opção de letras maiúsculas
-                self.senha_personalizada() # Chamando a função de personalização novamente
-            case "4": # Caso opção 4
-                self.com_letras_minusculas = self.ligar_desligar_opcao(self.com_letras_minusculas) # Ligando ou desligando a opção de letras minúsculas
-                self.senha_personalizada() # Chamando a função de personalização novamente
-            case "5": # Caso opção 5
-                self.com_simbolos = self.ligar_desligar_opcao(self.com_simbolos) # Ligando ou desligando a opção de caracteres especiais
-                self.senha_personalizada() # Chamando a função de personalização novamente
-            case "6": # Caso opção 6
-                if self.tamanho_senha is None: # Verificando se o tamanho da senha foi definido
-                    self.explicacao_erro(4) # Chamando o método de erro
-                    self.senha_personalizada() # Chamando a função de personalização novamente
-                elif self.com_letras_maiusculas == False and self.com_letras_minusculas == False and self.com_simbolos == False: # Verificando se nenhuma opção foi selecionada
-                    self.explicacao_erro(5) # Chamando o método de erro
-                    self.senha_personalizada() # Chamando a função de personalização novamente
-                else: # Se todas as opções foram selecionadas
-                    self.limpar_terminal() # Limpando o terminal
-                    self.tempo_espera(0.5) # Espera 0.5 segundos
-                    self.senha = self.gerador_senha(self.tamanho_senha, self.com_numero, self.com_letras_maiusculas, self.com_letras_minusculas, self.com_simbolos) # Gerando a senha personalizada
-                    self.opcao_interface_mostrando_senha(self.interface_mostrando_senha()) # Chamando a função de interface mostrando a senha personalizada
-            case "7": # Caso opção 7
-                self.limpar_terminal() # Limpando o terminal
-                self.inicio() # Chamando o método de início novamente
-            case _:
-                self.explicacao_erro(1) # Chamando o método de erro
-                self.senha_personalizada()  # Chamando a função de personalização novamente       
+        - Todos os parâmetros do tempo do hacker descobrir é utilizando um  brute force como exemplo
+        
+        1 - 8 caracteres e somente número. É uma senha fraca e quase imediatamente consegue ser descoberta
+        
+        2 - 10 caracteres e somente letras minúsculas. Senha fraca também, porém demora cerga de 60 minutos de ser descoberta
+        
+        3 - 12 caracteres, maiúsculas e minúsculas. Senha forte, demoraria uns 300 anos
+        
+        4 - 16 caracteres, maiúsculas, minúsculas e números. Senha fortíssima, demoraria 37 bilhões de anos para ser descoberta
+        
+        5 - 18 caracteres, maiúsculas, minúsculas, números e símbolos. Opção mais forte não customizável. Demoraria aproximadamente 7.10 elevado a 48  anos. 
+        
+        6 - Irá para a opção personalizada, onde você poderá customizar o tamanho e suas fontes
+        
+        7 - Voltar para o menu inicial
+        
+        _ - Erro comum de opção
+        '''
+        match opcao: 
+            case "1": 
+                self.senha = self.gerador_senha(8, True, False, False, False) 
+            case "2": 
+                self.senha = self.gerador_senha(10, False, False, True, False)  
+            case "3": 
+                self.senha = self.gerador_senha(12, False, True, True, False)
+            case "4": 
+                self.senha = self.gerador_senha(16, True, True, True, False) 
+            case "5":
+                self.senha = self.gerador_senha(18, True, True, True, True) 
+            case "6": # redefine as variáveis utilizáveis na senha personalizada
+                self.senha_personalizada() 
+            case "7": 
+                self.limpar_terminal() 
+                from main import MenuPrincipal 
+                MenuPrincipal().inicio() 
+            case _: 
+                self.explicacao_erro(1) 
+                self.inicio() 
+
+    def interface_mostrando_senha(self): # Interface para mostrar a senha gerada
+        self.limpar_terminal() 
+        self.tempo_espera(0.5)  
+        print(f"Senha gerada: {self.senha}\n\n") 
+        print("[1] - Copiar senha\n[2] - Gerar nova senha\n[3] - Sair\n") 
+        return str(input("Digite a opção desejada: ")) 
+    
+    def opcao_interface_mostrando_senha(self, opcao): 
+        match opcao: 
+            case "1": # Copia senha e retorna para o menu de geração
+                self.copiar_conteudo(self.senha) 
+                self.titulo_visivel("Senha copiada com sucesso!", 0.7) 
+                self.inicio() 
+            case "2": # Volta para o menu de geração
+                self.limpar_terminal() 
+                self.inicio() 
+            case "3": # Volta para o menu inicial de Main.py
+                self.limpar_terminal() 
+                from main import MenuPrincipal 
+                MenuPrincipal().inicio()                
+            case _: 
+                self.explicacao_erro(1)  
+                self.opcao_interface_mostrando_senha(self.interface_mostrando_senha()) 
+        
+    def senha_personalizada(self): 
+        '''
+        A senha personalizada é uma opção para uma senha mais específica, seja por causa do software ou do próprio usuário
+        Você pode criar uma senha com letras maiúsculas, letras minúsculas, números e/ou símbolos, de 4 até 20 caracteres
+        
+        A função redefine assim que executada todas as variáveis, assim que executa
+        Logo após entra num while onde vai criar a interface
+        
+        [1] Define o tamanho da senha. Dará erro se for menor que 4, maior que 20 ou não for um número inteiro
+        [2] Liga / Desliga opção de números na senha
+        [3] Liga / Desliga opção de letras maiúsculas na senha
+        [4] Liga / Desliga opção de letras minúsculas na senha
+        [5] Liga / Desliga opção de símbolos na senha
+        
+        Caso queira voltar, aperte [7]
+        
+        Se o tamanho da senha já foi definida e pelo menos uma das opções de caracteres está ligada, ele gerará a senha
+        '''
+        tamanho_senha = None 
+        com_numero = False 
+        com_letras_maiusculas = False 
+        com_letras_minusculas = False  
+        com_simbolos = False 
+        self.limpar_terminal() # Menu com funções de ligado ou desligado (True / False)
+        while True:
+            print("● — — — — — ◦Personalização◦ — — — — — ●\n\n") 
+            print(f"[1] - Tamanho da senha ({tamanho_senha})\n")
+            print(f"[2] - Números ({com_numero})\n") 
+            print(f"[3] - Letras maiúsculas ({com_letras_maiusculas})\n")
+            print(f"[4] - Letras minúsculas ({com_letras_minusculas})\n") 
+            print(f"[5] - Caracteres especiais ({com_simbolos})\n")
+            print(f"[6] - Finalizar\n\n[7] - Voltar\n\n") 
+            match str(input("Digite a opção desejada: ")): 
+                case "1": # Verificação caso não for dígito ou fora do escopo
+                    self.limpar_terminal() 
+                    tamanho_senha = str(input("Digite o tamanho da senha: ")).strip() 
+                    if tamanho_senha.isdigit(): 
+                        tamanho_senha = int(tamanho_senha) 
+                        if tamanho_senha < 4 or tamanho_senha > 20: 
+                            self.explicacao_erro(2) 
+                            tamanho_senha = None 
+                    else: 
+                        self.explicacao_erro(3) 
+                        tamanho_senha = None 
+                case "2": 
+                    com_numero = self.ligar_desligar_opcao(com_numero) 
+                case "3": 
+                    com_letras_maiusculas = self.ligar_desligar_opcao(com_letras_maiusculas) 
+                case "4": 
+                    com_letras_minusculas = self.ligar_desligar_opcao(com_letras_minusculas) 
+                case "5": 
+                    com_simbolos = self.ligar_desligar_opcao(com_simbolos) 
+                case "6": # Verifica caso não tenha tamanho ou não tenha as fontes de caracteres
+                    if tamanho_senha is None: 
+                        self.explicacao_erro(4) 
+                    elif not any([com_letras_maiusculas, com_letras_minusculas, com_simbolos, com_numero]):
+                        self.explicacao_erro(5) 
+                    else: 
+                        self.limpar_terminal() 
+                        self.tempo_espera(0.5)
+                        self.senha = self.gerador_senha(tamanho_senha, com_numero, com_letras_maiusculas, com_letras_minusculas, com_simbolos) 
+                        self.opcao_interface_mostrando_senha(self.interface_mostrando_senha()) 
+                case "7": 
+                    self.limpar_terminal()
+                    self.inicio() 
+                case _:
+                    self.explicacao_erro(1) 
