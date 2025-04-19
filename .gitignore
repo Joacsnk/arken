@@ -1,13 +1,11 @@
-# Arquivos de senhas
-senhas.json
-data/senhas.json
+# Arquivos de senhas e chaves
+data/
 
 # Arquivo de variáveis de ambiente
 .env
 
 # Ambiente virtual
 venv/
-env/
 
 # Arquivos de backup ou temporários
 *.bak

@@ -1,62 +1,101 @@
-from os import system as sy #importando o sistema para acessar o terminal
-from time import sleep as sl #importando o tempo para fazer uma espera
-from pyperclip import copy #importando a biblioteca pyperclip para copiar o conteudo
-from string import ascii_uppercase, digits, ascii_lowercase, punctuation #importando os caracteres que serão utilizados na senha
-from secrets import choice #importando a biblioteca secrets para gerar senhas seguras
-class FuncoesGerais(): #classe que contém as funções gerais do programa
+from os import system as sy # limpar terminal
+from time import sleep as sl # delay intencional
+from pyperclip import copy # Copiar conteúdo
+from string import ascii_uppercase, digits, ascii_lowercase, punctuation # Conjunto de strings para o gerador de senhas
+from secrets import choice # Escolha aleatória de caracteres para o gerador
+class FuncoesGerais(): 
+    ''' 
+    FuncoesGerais serve especificamente para auxiliar outros arquivos com funções gerais e que irão usar.
+    Para facilitar, juntei todas as funções que serão (ou possivelmente) reutilizáveis. Facilita na hora de 
+    limpar um terminal ou explicar um erro
+    '''
     
-    def __init__(self): #construtor da classe
-        pass #inicializando o construtor da classe
+    def __init__(self): 
+        pass 
     
-    def limpar_terminal(self): #função que limpa o terminal
-        sy("cls") #comando para limpar o terminal no windows
+    def limpar_terminal(self): # Limpa o terminal
+        sy("cls") 
     
-    def tempo_espera(self, tempo_espera):   #função que faz uma espera de x segundos
-        sl(tempo_espera) #tempo de espera em segundos
+    def tempo_espera(self, tempo_espera): # Delay intencional, seja para dar tempo de ler algum conteúdo ou perfomance
+        sl(tempo_espera) # Utiliza o tempo como parâmetro em segundos para definir o delay
         
-    def explicacao_erro(self, tipo_erro): #função que explica o erro
-        self.limpar_terminal() #limpa o terminal
-        self.tempo_espera(0.5) #espera 0.5 segundos
-        if tipo_erro == 1: #se o erro for 1
-            print("Erro 1. Opção inválida. Verifique se digitou corretamente.") # Opção fora do escopo
+    def explicacao_erro(self, tipo_erro): 
+        ''' 
+        Erros evitáveis e simples o suficiente para serem identificados e notificados para o usuário. 
+        Divido em: Nº do erro; Resumo; Correção rápida. Ex: Erro 585. Usuário não encontrado. Busque um usuário válido 
+        Utiliza como parâmetro o número do erro para seleciona-lo
+        '''
+        self.limpar_terminal() 
+        self.tempo_espera(0.5) 
+        if tipo_erro == 1: 
+            print("Erro 1. Opção inválida. Verifique se digitou corretamente.") # Opção fora de escopo
         elif tipo_erro == 2:
-            print("Erro 2. Tamanho inválido. O tamanho deve ser entre 4 e 20.") # Tamanho fora do escopo
+            print("Erro 2. Tamanho da senha inválida. O tamanho deve ser entre 4 e 20.") # Tamanho mínimo ou máximo ultrapassado
         elif tipo_erro == 3:
-            print("Erro 3. Tamanho inválido. O tamanho deve ser um número inteiro.") # Tamanho não é um número inteiro
+            print("Erro 3. Tamanho inválido. O tamanho deve ser um número inteiro.") # Float não suportado
         elif tipo_erro == 4:
-            print("Erro 4. Tamanho inválido. O tamanho deve ser definido.") # Tamanho não definido
+            print("Erro 4. Tamanho inválido. O tamanho deve ser definido.") # Tamanho não definido. Óbvio
         elif tipo_erro == 5:
-            print("Erro 5. Opcão inválida. Nenhum caractere foi selecionado.") # Nenhum caractere foi selecionado
-        self.tempo_espera(2) #espera 2 segundos
-        self.limpar_terminal() #limpa o terminal novamente
+            print("Erro 5. Opcão inválida. Nenhum caractere foi selecionado.")  # Sem strings para a alimentação da senha
+        elif tipo_erro == 6:
+            print("Erro 6. Seleção inválida. Nome inexistente.")  # Nome não encontrado nesse conjunto
+        elif tipo_erro == 7:
+            print("Erro 7. Seleção inválida. Nome já existente.") # Nome já existente em um conjunto
+        elif tipo_erro == 8:
+            print("Erro 8. Senhas diferentes. Repita a senha para confirmar") # Senha 1 diferente da Senha 2
+        elif tipo_erro == 9:
+            print("Erro 9. Senha incorreta. Digite a senha corretamente")
+        self.tempo_espera(2) 
+        self.limpar_terminal() 
         
-    def copiar_conteudo(self, conteudo): #função que copia o conteudo para a área de transferência
-        copy(conteudo) #copia o conteudo para a área de transferência
+    def copiar_conteudo(self, conteudo): # Copia o conteúdo para a área de transferência
+        copy(conteudo) 
         
-    def titulo_visivel(self, titulo, tempo_espera): #função que mostra o titulo na tela
-        self.limpar_terminal() #limpa o terminal
-        print(titulo) #mostra o titulo na tela
-        self.tempo_espera(tempo_espera) #espera o tempo definido
-        self.limpar_terminal() #limpa o terminal novamente
+    def titulo_visivel(self, titulo, tempo_espera): # Título simples, como "senha adicionada" ou "backup feito com êxito"
+        self.limpar_terminal() 
+        print(titulo) 
+        self.tempo_espera(tempo_espera) # tempo de delay como parâmetro
+        self.limpar_terminal() 
         
-    def ligar_desligar_opcao(self, opcao): #função que liga ou desliga uma opção
-        if opcao == False: #se a opção estiver desligada
-            opcao = True #liga a opção
-        else: #se a opção estiver ligada
-            opcao = False #desliga a opção
-        return opcao #retorna o valor da opção
+    def ligar_desligar_opcao(self, opcao): # Transformar a variável em True ou False, como um ligado/desligado. 
+        if opcao == False: # Utiliza a própria variável como parâmetro
+            opcao = True 
+        else: 
+            opcao = False 
+        return opcao 
         
-    def gerador_senha(self, tamanho_senha, com_numero, com_letras_maiusculas, com_letras_minusculas, com_simbolos): #função que gera a senha
-        conteudo_fonte_senha = '' #variável que contém os caracteres que serão utilizados na senha
-        if com_numero: #se a opção de números estiver ligada
-            conteudo_fonte_senha += digits #adiciona números à variável
-        if com_letras_maiusculas: #se a opção de letras maiúsculas estiver ligada
-            conteudo_fonte_senha += ascii_uppercase #adiciona letras maiúsculas à variável
-        if com_letras_minusculas: #se a opção de letras minúsculas estiver ligada
-            conteudo_fonte_senha += ascii_lowercase #adiciona letras minúsculas à variável
-        if com_simbolos: #se a opção de símbolos estiver ligada
-            excluir_simbolos_problematicos = '''""#$&'(),/:;<>@[\]^`{|}~''' #definindo os símbolos que serão excluídos
-            simbolos_filtrados = ''.join(i for i in punctuation if i not in excluir_simbolos_problematicos) #filtrando os símbolos
-            conteudo_fonte_senha += simbolos_filtrados #adiciona os símbolos filtrados à variável
-        senha = ''.join(choice(conteudo_fonte_senha) for _ in range(tamanho_senha)) #gerando a senha
-        return senha #retorna a senha gerada
+    def gerador_senha(self, tamanho_senha, com_numero, com_letras_maiusculas, com_letras_minusculas, com_simbolos): 
+        ''' 
+        Def específico para gerar senhas de acordo com seus parâmetros
+        PARÂMETROS:
+        
+        'Tamanho_senha' = Quantidade de caracteres da senha né. ex: 'senha123' tem 8 caracteres, sendo assim seu tamanho
+        'com_numero' = Caso verdadeiro, adiciona números à senha
+        'com_letras_maiusculas' = Caso verdadeiro, adiciona letras maiúsculas
+        'com_letras_minusculas' = Caso verdadeiro, adiciona letras minúsculas
+        'com_simbolos' = Caso verdadeiro, adiciona símbolos (não problemáticos, já explico)
+        
+        Ele funcioada da seguinte forma: 
+        
+        - Cria uma variável para auxiliar chamada 'conteudo_fonte_senha'. Ela guardará os caracteres que serão usados para a criação da senha
+        
+        - Verifica cada parâmetro. Caso verdadeiro, ele adiciona no 'conteudo_fonte_senha'
+        
+        - Caso o parâmetro 'com_simbolos' seja verdadeiro, primeiro ele seleciona todos os símbolos que podem ocasionar problemas na hora de registrar com senha. Ex: '#' é muito usada para comments em algumas linguagens. Depois ele junta todos os símbolos na 'simbolos_filtrados' EXCETO as que estão na variável 'excluir_simbolos_problematicos' por meio da iteração
+        
+        - 'senha' vai receber, aleatoriamente, o número de caracteres da lista de 'conteudo_fonte_senha' de acordo com o 'tamanho_senha'
+        
+        '''
+        conteudo_fonte_senha = '' 
+        if com_numero: 
+            conteudo_fonte_senha += digits 
+        if com_letras_maiusculas: 
+            conteudo_fonte_senha += ascii_uppercase 
+        if com_letras_minusculas: 
+            conteudo_fonte_senha += ascii_lowercase 
+        if com_simbolos: 
+            excluir_simbolos_problematicos = '''""#$&'(),/:;<>@[\]^`{|}~''' 
+            simbolos_filtrados = ''.join(i for i in punctuation if i not in excluir_simbolos_problematicos)
+            conteudo_fonte_senha += simbolos_filtrados 
+        senha = ''.join(choice(conteudo_fonte_senha) for _ in range(tamanho_senha))
+        return senha 
