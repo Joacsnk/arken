@@ -121,6 +121,7 @@ class GeradorSenha(FuncoesGerais):
                 case "1": # Verificação caso não for dígito ou fora do escopo
                     self.limpar_terminal() 
                     tamanho_senha = str(input("Digite o tamanho da senha: ")).strip() 
+                    self.limpar_terminal()
                     if tamanho_senha.isdigit(): 
                         tamanho_senha = int(tamanho_senha) 
                         if tamanho_senha < 4 or tamanho_senha > 20: 
