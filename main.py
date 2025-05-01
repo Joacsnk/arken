@@ -4,6 +4,7 @@ class MenuPrincipal(FuncoesGerais):
     Menu principal é o inicio do programa. É aqui que vamos para o gerenciador ou para o gerador de senhas.
     
     
+    
     '''
     
     def __init__(self): 

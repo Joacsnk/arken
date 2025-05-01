@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC # Derivação d
 from cryptography.hazmat.primitives import hashes # Uilizada para transformar dados em um conjunto fixo de caracteres
 from cryptography.hazmat.backends import default_backend # Necessário para configurar o PBKDF2HMAC
 from cryptography.fernet import Fernet, InvalidToken # Sistema principal de criptografia; Erro se senha_mestra for errada
+from backup.local import Backup_Local as BL
 class FerramentasCrypto(FuncoesGerais):
     '''
     Se você quer SABER o que FerramentasCrypto faz, é simples:
@@ -108,6 +109,7 @@ class FerramentasCrypto(FuncoesGerais):
             chave_derivada = self.derivar_chave(senha_mestre, salt)
             chave_fernet = self.obter_chave_fernet(chave_derivada)
             self.fernet = Fernet(chave_fernet) # Definindo objeto para criptografia e descriptografia
+            BL().backup_arquivo(2)
             os.system("cls")
     
     def obter_chave_fernet(self, chave_derivada: bytes, caminho='data/chave.key') -> bytes:

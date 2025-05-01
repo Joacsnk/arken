@@ -2,6 +2,7 @@ from core.funcoes import FuncoesGerais # Funções gerais...dhuuu
 import os # Verificação do arquivo json
 import json # Manipulação em json
 from core.ferramentas_crypto import FerramentasCrypto as FC # Funções gerais
+from backup.local import Backup_Local as BL
 class GerenciadorSenha(FuncoesGerais): 
     '''
     O GerenciadorSenha tem a função de gerenciar suas senhas de forma maleável e que seja fácil de manipular. Precisa buscar, excluir ou adicionar uma senha? Precisa editar uma senha? Aqui é o lugar
@@ -78,6 +79,7 @@ class GerenciadorSenha(FuncoesGerais):
                     }
                 with open(self.caminho_json, 'w') as f:
                     json.dump(conjunto_senhas, f, indent=4)
+                BL().backup_arquivo(1)
                 self.titulo_visivel("Senha adicionada com sucesso!", 2)
                 self.inicio()
     
@@ -136,6 +138,7 @@ class GerenciadorSenha(FuncoesGerais):
                             }
                             with open(self.caminho_json, 'w') as f:
                                 json.dump(conjunto_senhas, f, indent=4)
+                            BL().backup_arquivo(1)
                             self.titulo_visivel("Senha editada com sucesso!", 2)
                             self.inicio()
                     elif opcao == "3":
@@ -168,6 +171,7 @@ class GerenciadorSenha(FuncoesGerais):
                         del conjunto_senhas[nome_senha]
                         with open(self.caminho_json, 'w') as f:
                             json.dump(conjunto_senhas, f, indent=4)
+                        BL().backup_arquivo(1)
                         self.titulo_visivel("Senha removida com sucesso!", 1.5)
                         self.inicio()
                     elif opcao == "2":
