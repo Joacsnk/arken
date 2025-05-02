@@ -10,7 +10,7 @@ class FuncoesGerais():
     limpar um terminal ou explicar um erro
     '''
     
-    def __init__(self): 
+    def __init__(self): # Initi padrão
         pass 
     
     def limpar_terminal(self): # Limpa o terminal
@@ -18,13 +18,13 @@ class FuncoesGerais():
     
     def tempo_espera(self, tempo_espera): # Delay intencional, seja para dar tempo de ler algum conteúdo ou perfomance
         sl(tempo_espera) # Utiliza o tempo como parâmetro em segundos para definir o delay
-        
+   
+    ''' 
+    Erros evitáveis e simples o suficiente para serem identificados e notificados para o usuário. 
+    Divido em: Nº do erro; Resumo; Correção rápida. Ex: Erro 585. Usuário não encontrado. Busque um usuário válido 
+    Utiliza como parâmetro o número do erro para seleciona-lo
+    '''     
     def explicacao_erro(self, tipo_erro): 
-        ''' 
-        Erros evitáveis e simples o suficiente para serem identificados e notificados para o usuário. 
-        Divido em: Nº do erro; Resumo; Correção rápida. Ex: Erro 585. Usuário não encontrado. Busque um usuário válido 
-        Utiliza como parâmetro o número do erro para seleciona-lo
-        '''
         self.limpar_terminal() 
         self.tempo_espera(0.5) 
         if tipo_erro == 1: 
@@ -44,7 +44,7 @@ class FuncoesGerais():
         elif tipo_erro == 8:
             print("Erro 8. Senhas diferentes. Repita a senha para confirmar") # Senha 1 diferente da Senha 2
         elif tipo_erro == 9:
-            print("Erro 9. Senha incorreta. Digite a senha corretamente")
+            print("Erro 9. Senha incorreta. Digite a senha corretamente") # Senha errada
         self.tempo_espera(2) 
         self.limpar_terminal() 
         
@@ -57,35 +57,35 @@ class FuncoesGerais():
         self.tempo_espera(tempo_espera) # tempo de delay como parâmetro
         self.limpar_terminal() 
         
-    def ligar_desligar_opcao(self, opcao): # Transformar a variável em True ou False, como um ligado/desligado. 
-        if opcao == False: # Utiliza a própria variável como parâmetro
-            opcao = True 
+    def ligar_desligar_opcao(self, var): # Transformar a variável em True ou False, como um ligado/desligado. 
+        if var == False: # Utiliza a própria variável como parâmetro
+            var = True 
         else: 
-            opcao = False 
-        return opcao 
-        
+            var = False 
+        return var 
+     
+    ''' 
+    Def específico para gerar senhas de acordo com seus parâmetros
+    PARÂMETROS:
+    
+    'Tamanho_senha' = Quantidade de caracteres da senha né. ex: 'senha123' tem 8 caracteres, sendo assim seu tamanho
+    'com_numero' = Caso verdadeiro, adiciona números à senha
+    'com_letras_maiusculas' = Caso verdadeiro, adiciona letras maiúsculas
+    'com_letras_minusculas' = Caso verdadeiro, adiciona letras minúsculas
+    'com_simbolos' = Caso verdadeiro, adiciona símbolos (não problemáticos, já explico)
+    
+    Ele funcioada da seguinte forma: 
+    
+    - Cria uma variável para auxiliar chamada 'conteudo_fonte_senha'. Ela guardará os caracteres que serão usados para a criação da senha
+    
+    - Verifica cada parâmetro. Caso verdadeiro, ele adiciona no 'conteudo_fonte_senha'
+    
+    - Caso o parâmetro 'com_simbolos' seja verdadeiro, primeiro ele seleciona todos os símbolos que podem ocasionar problemas na hora de registrar com senha. Ex: '#' é muito usada para comments em algumas linguagens. Depois ele junta todos os símbolos na 'simbolos_filtrados' EXCETO as que estão na variável 'excluir_simbolos_problematicos' por meio da iteração
+    
+    - 'senha' vai receber, aleatoriamente, o número de caracteres da lista de 'conteudo_fonte_senha' de acordo com o 'tamanho_senha'
+    
+    '''
     def gerador_senha(self, tamanho_senha, com_numero, com_letras_maiusculas, com_letras_minusculas, com_simbolos): 
-        ''' 
-        Def específico para gerar senhas de acordo com seus parâmetros
-        PARÂMETROS:
-        
-        'Tamanho_senha' = Quantidade de caracteres da senha né. ex: 'senha123' tem 8 caracteres, sendo assim seu tamanho
-        'com_numero' = Caso verdadeiro, adiciona números à senha
-        'com_letras_maiusculas' = Caso verdadeiro, adiciona letras maiúsculas
-        'com_letras_minusculas' = Caso verdadeiro, adiciona letras minúsculas
-        'com_simbolos' = Caso verdadeiro, adiciona símbolos (não problemáticos, já explico)
-        
-        Ele funcioada da seguinte forma: 
-        
-        - Cria uma variável para auxiliar chamada 'conteudo_fonte_senha'. Ela guardará os caracteres que serão usados para a criação da senha
-        
-        - Verifica cada parâmetro. Caso verdadeiro, ele adiciona no 'conteudo_fonte_senha'
-        
-        - Caso o parâmetro 'com_simbolos' seja verdadeiro, primeiro ele seleciona todos os símbolos que podem ocasionar problemas na hora de registrar com senha. Ex: '#' é muito usada para comments em algumas linguagens. Depois ele junta todos os símbolos na 'simbolos_filtrados' EXCETO as que estão na variável 'excluir_simbolos_problematicos' por meio da iteração
-        
-        - 'senha' vai receber, aleatoriamente, o número de caracteres da lista de 'conteudo_fonte_senha' de acordo com o 'tamanho_senha'
-        
-        '''
         conteudo_fonte_senha = '' 
         if com_numero: 
             conteudo_fonte_senha += digits 

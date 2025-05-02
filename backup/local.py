@@ -1,4 +1,5 @@
 import os
+import json
 from shutil import copy2
 from datetime import datetime
 class Backup_Local:
@@ -25,6 +26,12 @@ class Backup_Local:
         os.makedirs('backup/backup_salt', exist_ok=True)
         os.makedirs('backup/backup_key', exist_ok=True)
         os.makedirs('backup/backup_json', exist_ok=True)
+        if not os.path.exists('data/senhas.json') or os.stat('data/senhas.json').st_size == 0:
+            os.makedirs(os.path.dirname('data/senhas.json'), exist_ok=True)
+            with open('data/senhas.json', 'w') as f:
+                json.dump({}, f)
+    
         
+      
 if __name__ == '__main__':
     Backup_Local().backup_arquivo('chave.key')
